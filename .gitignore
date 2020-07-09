@@ -5,6 +5,7 @@
 ### Original ###
 *.jpg
 *.html
+.vscode-server
 
 
 ### JupyterNotebooks ###
