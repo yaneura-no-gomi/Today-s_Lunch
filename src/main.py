@@ -4,6 +4,10 @@ from pprint import pprint
 
 import requests
 from bs4 import BeautifulSoup
+from pytesseract import pytesseract
+
+from PIL import Image
+import pyocr
 
 
 def get_menu_image():
@@ -23,12 +27,24 @@ def get_menu_image():
         with open(os.path.join("..", str(i)+".jpg"),'wb') as file:
                 file.write(r.content)
 
-def ocr():
-    hoge = 1
+def ocr(img_path):
+    path_tesseract = "/usr/bin/tesseract"
+    if path_tesseract not in os.environ["PATH"].split(os.pathsep):
+        os.environ["PATH"] += os.pathsep + path_tesseract
+    
+    tools = pyocr.get_available_tools()
+    tool = tools[0]
+    img_org = Image.open(img_path)
+
+    builder = pyocr.builders.TextBuilder()
+    result = tool.image_to_string(img_org, lang="jpn", builder=builder)
+
+    return result
 
     
 def main():
-    get_menu_image()
+    # get_menu_image()
+    print(ocr("/opt/1.jpg"))
 
 if __name__ == "__main__":
     main()
