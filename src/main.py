@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def main():
+def get_menu_image():
 
     urlName = "http://tus-dining.co.jp/menu/"
     url = requests.get(urlName)
@@ -22,8 +22,13 @@ def main():
         r = requests.get(img)
         with open(os.path.join("..", str(i)+".jpg"),'wb') as file:
                 file.write(r.content)
-    
 
+def ocr():
+    hoge = 1
+
+    
+def main():
+    get_menu_image()
 
 if __name__ == "__main__":
     main()
