@@ -6,7 +6,7 @@
 *.jpg
 *.html
 .vscode-server
-
+result
 
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
