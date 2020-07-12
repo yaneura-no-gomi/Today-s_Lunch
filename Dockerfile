@@ -13,7 +13,6 @@ RUN pip install --upgrade pip; \
     pyocr \
     requests \
     beautifulsoup4 \
-    pprint \
     pandas \
     
 
