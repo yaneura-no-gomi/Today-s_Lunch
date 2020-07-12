@@ -2,12 +2,13 @@ import os
 import re
 from pprint import pprint
 
+import pyocr
 import requests
 from bs4 import BeautifulSoup
+from PIL import Image
 from pytesseract import pytesseract
 
-from PIL import Image
-import pyocr
+from image_croper import ImageCroper
 
 
 def get_menu_image():
@@ -27,6 +28,7 @@ def get_menu_image():
         with open(os.path.join("..", str(i)+".jpg"),'wb') as file:
                 file.write(r.content)
 
+
 def ocr(img_path):
     path_tesseract = "/usr/bin/tesseract"
     if path_tesseract not in os.environ["PATH"].split(os.pathsep):
@@ -44,7 +46,8 @@ def ocr(img_path):
     
 def main():
     # get_menu_image()
-    print(ocr("/opt/1.jpg"))
+    # print(ocr("/opt/1.jpg"))
+    crop_by_frame("/opt/1.jpg")
 
 if __name__ == "__main__":
     main()
