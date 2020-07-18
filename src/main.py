@@ -2,6 +2,7 @@ import os
 import re
 from pprint import pprint
 
+import pandas as pd
 import pyocr
 import requests
 from bs4 import BeautifulSoup
@@ -38,23 +39,23 @@ def cv2pil(image):
         new_image = new_image[:, :, ::-1]
     elif new_image.shape[2] == 4:  # 透過
         new_image = new_image[:, :, [2, 1, 0, 3]]
+
     new_image = Image.fromarray(new_image)
     return new_image
 
 def crop_img(img_path):
     croper = ImageCroper(img_path)
-    croper.extract_lines()
     croped_imgs = croper.crop_by_frame()
 
     for k, v in croped_imgs.items():
         pil_imgs = []
         for cv_img in v:
             pil_imgs.append(cv2pil(cv_img))
-        v = pil_imgs
+        croped_imgs[k] = pil_imgs
 
     return croped_imgs
 
-def ocr(img_path):
+def ocr(croped_imgs):
     path_tesseract = "/usr/bin/tesseract"
     if path_tesseract not in os.environ["PATH"].split(os.pathsep):
         os.environ["PATH"] += os.pathsep + path_tesseract
@@ -62,19 +63,28 @@ def ocr(img_path):
     tools = pyocr.get_available_tools()
     tool = tools[0]
 
-    croped_imgs = crop_img(img_path)
+    builder = pyocr.builders.TextBuilder(tesseract_layout=6)
+    
+    result = {}
+    for k, imgs in croped_imgs.items():
+        extract_text = []
+        for img in imgs[1:]:
+            res = tool.image_to_string(img, lang="jpn", builder=builder)
+            res = res.replace('\n','').replace('\\', '')
+            res = re.sub('\d+', '', res)
+            extract_text.append(res)
 
-    print(croped_imgs)
+        result[k] = extract_text
 
-    builder = pyocr.builders.TextBuilder()
-    result = tool.image_to_string(img_org, lang="jpn", builder=builder)
-
-    return result
+    df = pd.DataFrame(result)
+    df.index = ["A", "B", "C", "D", "丼", "カレー", "その他"]
+    df.to_csv("/opt/result/hoge.csv")
 
     
 def main():
-    get_menu_image()
-    # print(ocr("/opt/1.jpg"))
+    # get_menu_image()
+    croped_imgs = crop_img("/opt/1.jpg")
+    ocr(croped_imgs)
 
 if __name__ == "__main__":
     main()

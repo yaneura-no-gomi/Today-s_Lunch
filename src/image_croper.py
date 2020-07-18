@@ -63,8 +63,8 @@ class ImageCroper:
         vertical = VERTICAL
         horizontal = HORIZONTAL
 
-        pprint(vertical)
-        pprint(horizontal)
+        # pprint(vertical)
+        # pprint(horizontal)
 
         # Croping 
         croped_imgs = dict()
@@ -78,7 +78,8 @@ class ImageCroper:
             for i in range(len(horizontal) - 1):
                 if i!=0:
                     _.append(v[horizontal[i] : horizontal[i + 1], :])
-            v = _
+                    # cv2.imwrite(k + str(i) + ".jpg", v[horizontal[i] : horizontal[i + 1], :])
+            croped_imgs[k] = _
 
         return croped_imgs
 
