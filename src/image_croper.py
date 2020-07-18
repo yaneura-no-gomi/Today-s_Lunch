@@ -15,8 +15,9 @@ class ImageCroper:
 
         # Grayscale Conversion & Negative Positive Conversion
         img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
-        ret, img_thresh = cv2.threshold(img, 0, 255, cv2.THRESH_OTSU)
+        ret, img_thresh = cv2.threshold(img, 150, 255, cv2.THRESH_BINARY)
         self.img_thresh = img_thresh
+        cv2.imwrite("thresh.jpg", img_thresh)
         img = cv2.bitwise_not(img_thresh)
 
         # Lines Detection by Hough Conversion
@@ -56,28 +57,6 @@ class ImageCroper:
         Find the coordinates of the required intersection points
         """
 
-        # if self.lines is not None:
-        #     # Find the coordinates of the required intersection points
-        #     vertical = []
-        #     horizontal = []
-        #     for line in self.lines:
-        #         if line[0] == line[2]:
-        #             # vertical line
-        #             vertical.append(line[0])
-
-        #         elif line[1] == line[3]:
-        #             # horizontal line
-        #             horizontal.append(line[1])
-
-        #     # Close elements are eliminated
-        #     vertical = self.eliminate_close_element(sorted(vertical))
-        #     horizontal = self.eliminate_close_element(sorted(horizontal))
-
-        #     if vertical[0] != 0:
-        #         vertical.insert(0, 0)
-        #     if horizontal[0] != 0:
-        #         horizontal.insert(0, 0)
-
         self.extract_lines()
         self.remove_lines()
 
@@ -106,7 +85,7 @@ class ImageCroper:
 
 def main():
 
-    img_path = "2.jpg"
+    img_path = "2_2.jpg"
     croper = ImageCroper(img_path)
     croper.crop_by_frame()
 
