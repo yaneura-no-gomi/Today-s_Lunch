@@ -13,6 +13,7 @@ from image_croper import ImageCroper
 
 ROOT_PATH = "/opt/"
 
+
 def get_menu_image():
 
     urlName = "http://tus-dining.co.jp/menu/"
@@ -22,16 +23,17 @@ def get_menu_image():
     katsushika = soup.body.find_all("div", class_="grid-box isotope-item katsushika")[0]
 
     # pprint(katsushika.find_all("img"))
-    imgs = [ _["src"] for _ in katsushika.find_all("img")]
+    imgs = [_["src"] for _ in katsushika.find_all("img")]
     pprint(imgs)
 
     for i, img in enumerate(imgs):
         r = requests.get(img)
-        with open(os.path.join(ROOT_PATH, str(i)+"_2.jpg"),'wb') as file:
-                file.write(r.content)
+        with open(os.path.join(ROOT_PATH, "imgs", str(i) + ".jpg"), "wb") as file:
+            file.write(r.content)
+
 
 def cv2pil(image):
-    ''' OpenCV型 -> PIL型 '''
+    """ OpenCV型 -> PIL型 """
     new_image = image.copy()
     if new_image.ndim == 2:  # モノクロ
         pass
@@ -42,6 +44,7 @@ def cv2pil(image):
 
     new_image = Image.fromarray(new_image)
     return new_image
+
 
 def crop_img(img_path):
     croper = ImageCroper(img_path)
@@ -55,36 +58,38 @@ def crop_img(img_path):
 
     return croped_imgs
 
+
 def ocr(croped_imgs):
     path_tesseract = "/usr/bin/tesseract"
     if path_tesseract not in os.environ["PATH"].split(os.pathsep):
         os.environ["PATH"] += os.pathsep + path_tesseract
-    
+
     tools = pyocr.get_available_tools()
     tool = tools[0]
 
     builder = pyocr.builders.TextBuilder(tesseract_layout=6)
-    
+
     result = {}
     for k, imgs in croped_imgs.items():
         extract_text = []
         for img in imgs[1:]:
             res = tool.image_to_string(img, lang="jpn", builder=builder)
-            res = res.replace('\n','').replace('\\', '')
-            res = re.sub('\d+', '', res)
+            res = res.replace("\n", "").replace("\\", "")
+            res = re.sub("\d+", "", res)
             extract_text.append(res)
 
         result[k] = extract_text
 
     df = pd.DataFrame(result)
     df.index = ["A", "B", "C", "D", "丼", "カレー", "その他"]
-    df.to_csv("/opt/result/hoge.csv")
+    df.to_csv(os.path.join(ROOT_PATH, "result", "result.csv"))
 
-    
+
 def main():
-    # get_menu_image()
-    croped_imgs = crop_img("/opt/1.jpg")
+    get_menu_image()
+    croped_imgs = crop_img("/opt/imgs/1.jpg")
     ocr(croped_imgs)
+
 
 if __name__ == "__main__":
     main()

@@ -17,7 +17,7 @@ class ImageCroper:
         img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
         ret, img_thresh = cv2.threshold(img, 150, 255, cv2.THRESH_BINARY)
         self.img_thresh = img_thresh
-        cv2.imwrite("thresh.jpg", img_thresh)
+        # cv2.imwrite("thresh.jpg", img_thresh)
         img = cv2.bitwise_not(img_thresh)
 
         # Lines Detection by Hough Conversion
@@ -32,7 +32,7 @@ class ImageCroper:
             x1, y1, x2, y2 = line
             # 赤線を引く
             red_line_img = cv2.line(self.img, (x1, y1), (x2, y2), (0, 0, 255), 3)
-            cv2.imwrite("check_lines.png", red_line_img)
+            # cv2.imwrite("check_lines.png", red_line_img)
 
     def eliminate_close_element(self, l):
         rm = []
@@ -70,7 +70,7 @@ class ImageCroper:
         croped_imgs = dict()
         for i, day in enumerate(["mon", "tue", "wed", "thu", "fri", "sat"]):
             _ = self.no_lines_img[:, vertical[i] : vertical[i + 1]]
-            cv2.imwrite("result/" + day + ".png", _)
+            # cv2.imwrite("result/" + day + ".png", _)
             croped_imgs[day] = self.no_lines_img[:, vertical[i] : vertical[i + 1]]
 
         for k, v in croped_imgs.items():
