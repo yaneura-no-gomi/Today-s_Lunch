@@ -1,5 +1,7 @@
 import os
 import re
+import sys
+from datetime import datetime, timedelta
 from pprint import pprint
 
 import pandas as pd
@@ -9,10 +11,10 @@ from bs4 import BeautifulSoup
 from PIL import Image
 from pytesseract import pytesseract
 
+sys.path.append('/opt/utils/')
 from image_croper import ImageCroper
 
 ROOT_PATH = "/opt/"
-
 
 def get_menu_image():
 
@@ -24,12 +26,19 @@ def get_menu_image():
 
     # pprint(katsushika.find_all("img"))
     imgs = [_["src"] for _ in katsushika.find_all("img")]
-    pprint(imgs)
+    # pprint(imgs)
 
     for i, img in enumerate(imgs):
         r = requests.get(img)
         with open(os.path.join(ROOT_PATH, "imgs", str(i) + ".jpg"), "wb") as file:
             file.write(r.content)
+
+    mondays = []
+    for i in imgs[1:]:
+        monday = datetime.strptime(i.split('_')[2], '%Y-%m-%d') + timedelta(days=3)
+        mondays.append(monday.strftime('%Y%m%d'))
+
+    return mondays
 
 
 def cv2pil(image):
@@ -59,7 +68,7 @@ def crop_img(img_path):
     return croped_imgs
 
 
-def ocr(croped_imgs):
+def ocr(croped_imgs, df_num):
     path_tesseract = "/usr/bin/tesseract"
     if path_tesseract not in os.environ["PATH"].split(os.pathsep):
         os.environ["PATH"] += os.pathsep + path_tesseract
@@ -82,13 +91,14 @@ def ocr(croped_imgs):
 
     df = pd.DataFrame(result)
     df.index = ["A", "B", "C", "D", "丼", "カレー", "その他"]
-    df.to_csv(os.path.join(ROOT_PATH, "result", "result.csv"))
+    df.to_csv(os.path.join(ROOT_PATH, "result", "result_" + str(df_num) + ".csv"))
+    print("Finish")
 
 
 def main():
     get_menu_image()
     croped_imgs = crop_img("/opt/imgs/1.jpg")
-    ocr(croped_imgs)
+    ocr(croped_imgs, 1)
 
 
 if __name__ == "__main__":
