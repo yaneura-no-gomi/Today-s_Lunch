@@ -2,9 +2,9 @@ build:
   docker:
     worker: Dockerfile
 
-# run:
-#   worker: 
-#     command: 
-#       - pip install -r requirements.txt
-#       - python slackbot/run.py
-#     image: worker
+run:
+  worker: 
+    command: 
+      - pip install -r requirements.txt
+      - python slackbot/run.py
+    image: worker

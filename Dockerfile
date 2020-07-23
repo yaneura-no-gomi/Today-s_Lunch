@@ -17,5 +17,5 @@ RUN pip install --upgrade pip; \
     slackbot \
     slacker
 
-ENTRYPOINT ["/usr/bin/tail", "-f", "/dev/null"]
+CMD /usr/bin/tail -f /dev/null
 # CMD python slackbot/run.py
