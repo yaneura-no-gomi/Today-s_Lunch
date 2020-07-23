@@ -7,8 +7,8 @@ RUN apt-get -y install \
     git
 RUN apt-get clean
 
-ADD requirements.txt /tmp
-RUN pip install -r /tmp/requirements.txt
+# ADD requirements.txt /tmp
+# RUN pip install -r /tmp/requirements.txt
 
 # RUN pip install --upgrade pip; \
 #     pip install \
@@ -23,5 +23,9 @@ RUN pip install -r /tmp/requirements.txt
 WORKDIR /worker
 RUN git clone https://github.com/yaneura-no-gomi/Today-s_Lunch.git todayslunch
 
+WORKDIR todayslunch
 # ENTRYPOINT ["/usr/bin/tail", "-f", "/dev/null"]
-CMD python /worker/todayslunch/slackbot/run.py
+RUN mkdir imgs
+RUN mkdir result
+RUN pip install -r requirements.txt
+CMD python slackbot/run.py
