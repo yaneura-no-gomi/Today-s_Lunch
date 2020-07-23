@@ -6,4 +6,4 @@ run:
   worker: 
     command: 
       - python slackbot/run.py
-    image: web
+    image: worker
