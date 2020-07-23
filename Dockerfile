@@ -16,4 +16,6 @@ RUN pip install --upgrade pip; \
     pandas \
     slackbot
 
-ENTRYPOINT ["/usr/bin/tail", "-f", "/dev/null"]
+# ENTRYPOINT ["/usr/bin/tail", "-f", "/dev/null"]
+RUN pip install -r requirements.txt
+CMD python slackbot/run.py
