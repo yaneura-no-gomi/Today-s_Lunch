@@ -14,7 +14,8 @@ RUN pip install --upgrade pip; \
     requests \
     beautifulsoup4 \
     pandas \
-    slackbot
+    slackbot \
+    slacker
 
 # ENTRYPOINT ["/usr/bin/tail", "-f", "/dev/null"]
 CMD python slackbot/run.py
