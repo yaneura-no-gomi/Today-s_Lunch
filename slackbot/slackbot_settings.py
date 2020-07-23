@@ -10,5 +10,6 @@ DEFAULT_REPLY = "ちょっと何言ってるかわかんない^^; \n `!help` com
 PLUGINS = [
     'slackbot.plugins',
     'botmodules.conversation',
-    'botmodules.get_menu'
+    'botmodules.get_menu',
+    'botmodules.send_weekly_menu'
 ]
