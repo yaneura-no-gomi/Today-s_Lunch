@@ -1,8 +1,9 @@
 build:
-    docker:
-      web: Dockerfile
+  docker:
+    web: Dockerfile
 
 run:
-  worker: 
-    command: python slackbot/run.py
+  web: 
+    command: 
+      - python slackbot/run.py
     image: web
