@@ -1,7 +1,7 @@
 import glob
 import os
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import requests
 from slackbot.bot import default_reply, listen_to, respond_to
@@ -9,8 +9,10 @@ from slacker import Slacker
 
 import slackbot_settings
 
+JST = timezone(timedelta(hours=+9), 'JST')
+
 def get_today_date():
-    dt_today = datetime.today()
+    dt_today = datetime.now(JST)
     return dt_today
 
 def get_weekly_menu(dt):

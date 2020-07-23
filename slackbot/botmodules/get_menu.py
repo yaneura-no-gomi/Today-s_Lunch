@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import sys
 import os
 import glob
@@ -8,12 +8,13 @@ import pandas as pd
 
 import slackbot_settings
 
-sys.path.append("./utils")
+sys.path.append("./")
 from utils.get_menu_data import crop_img, get_menu_image, ocr
 
+JST = timezone(timedelta(hours=+9), 'JST')
 
 def get_today_date():
-    dt_today = datetime.today()
+    dt_today = datetime.now(JST)
     return dt_today
 
 
