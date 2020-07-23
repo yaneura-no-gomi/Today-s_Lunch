@@ -23,7 +23,14 @@ def series2text(d):
     """
     menu = ''
     for idx, m in zip(d.index, d):
-        menu += str(idx) + ": " + m + "\n"
+        
+        # 変な文字が入っていた場合は”なし”として返す
+        if len(m) > 2:
+            menu += str(idx) + ": " + m + "\n"
+
+        else:
+            menu += str(idx) + ": " + "なし" + "\n"
+
     return menu
 
 
@@ -56,7 +63,7 @@ def extract_menu(dt):
         df = pd.read_csv(files[1], index_col=0).fillna("なし")
         menu = series2text(df.loc[:, dt[1]])
         return menu
-
+ 
 
 @listen_to("!help")
 def send_help(message):
@@ -77,7 +84,7 @@ def send_today_menu(message):
 
     menu = extract_menu(dt_today)
 
-    message.send(f"Here's today's menu! ({dt_today})")
+    message.send(f"Here's Today's Menu! ({dt_today})")
     message.send(menu)
 
 
@@ -89,16 +96,8 @@ def send_tommorow_menu(message):
 
     menu = extract_menu(dt_tomorrow)
 
-    message.send(f"Here's tomorrow's menu! ({dt_tomorrow})")
+    message.send(f"Here's Tomorrow's Menu! ({dt_tomorrow})")
     message.send(menu)
-
-
-#TODO: weekでは画像をそのまま送りつける
-@listen_to("!week")
-def send_week_menu(message):
-    dt_today = get_today_date()
-    dt_today = datetime.strftime(dt_today, "%Y-%m-%d %a")
-    message.send("今週のメニューを表示します")
 
 
 @listen_to("!update")
