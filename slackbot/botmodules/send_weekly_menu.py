@@ -22,7 +22,7 @@ def get_weekly_menu(dt):
 
     # 画像名から月曜日の日付を取得
     mondays = []
-    files = sorted(glob.glob("/opt/result/*"))
+    files = sorted(glob.glob("./result/*"))
     for f in files:
         monday = int(os.path.splitext(os.path.basename(f))[0].split("_")[1])
         mondays.append(monday)

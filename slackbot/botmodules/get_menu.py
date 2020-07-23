@@ -8,7 +8,7 @@ import pandas as pd
 
 import slackbot_settings
 
-sys.path.append("/opt/")
+sys.path.append("./")
 from utils.get_menu_data import crop_img, get_menu_image, ocr
 
 
@@ -47,7 +47,7 @@ def extract_menu(dt):
     
     # 画像名から月曜日の日付を取得
     mondays = []
-    files = sorted(glob.glob("/opt/result/*"))
+    files = sorted(glob.glob("./result/*"))
     for f in files:
         monday = int(os.path.splitext(os.path.basename(f))[0].split("_")[1])
         mondays.append(monday)
@@ -68,7 +68,7 @@ def extract_menu(dt):
 @listen_to("!help")
 def send_help(message):
 
-    how_to_use = "`!today`: 今日のメニューを表示\n `!tomorrow`: 明日のメニューを表示\n `!week`: 今週のメニューを表示"
+    how_to_use = "`!today`: 今日のメニューを表示\n `!tomorrow`: 明日のメニューを表示\n `!week`: 今週のメニューを表示\n `!update`: データベースを更新"
     message.send("How to use! \n" + how_to_use)
 
 @listen_to("!test")
@@ -103,10 +103,10 @@ def send_tommorow_menu(message):
 @listen_to("!update")
 def update_database(message):
 
-    message.send("データベースを更新しています...")
+    # message.send("データベースを更新しています...")
 
     # 既存のcsvを削除
-    files = glob.glob("/opt/result/*")
+    files = glob.glob("./result/*")
     for f in files:
         if os.path.isfile(f):
             os.remove(f)
@@ -118,9 +118,9 @@ def update_database(message):
     dt_today = get_today_date()
     dt_today = datetime.strftime(dt_today, "%Y-%m-%d %a")
 
-    croped_imgs = crop_img("/opt/imgs/1.jpg")
+    croped_imgs = crop_img("./imgs/1.jpg")
     ocr(croped_imgs, mondays[0])
-    croped_imgs = crop_img("/opt/imgs/2.jpg")
+    croped_imgs = crop_img("./imgs/2.jpg")
     ocr(croped_imgs, mondays[1])
 
     message.send("更新が完了しました!")

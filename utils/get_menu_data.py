@@ -11,10 +11,10 @@ from bs4 import BeautifulSoup
 from PIL import Image
 from pytesseract import pytesseract
 
-sys.path.append('/opt/utils/')
+sys.path.append('./utils/')
 from image_croper import ImageCroper
 
-ROOT_PATH = "/opt/"
+ROOT_PATH = "./"
 
 def get_menu_image():
 
