@@ -8,7 +8,7 @@ import pandas as pd
 
 import slackbot_settings
 
-sys.path.append("./")
+sys.path.append("./utils")
 from utils.get_menu_data import crop_img, get_menu_image, ocr
 
 
