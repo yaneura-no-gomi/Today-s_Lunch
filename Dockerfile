@@ -22,4 +22,6 @@ CMD /usr/bin/tail -f /dev/null
 WORKDIR work
 COPY . .
 RUN pip install -r requirements.txt
+RUN mkdir imgs
+RUN mkdir result
 CMD python slackbot/run.py
