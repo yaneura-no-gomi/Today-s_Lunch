@@ -4,7 +4,7 @@ Slack Bot to notify today's lunch menus TUS in Katsushika!
 
 ## Usage
 This is deployed to Heroku and based on Hubot. I'll spare you the Hubot setup.
-```
+```sh
 heroku login
 git clone https://github.com/yaneura-no-gomi/Today-s_Lunch.git 
 heroku create [your-app-name]
