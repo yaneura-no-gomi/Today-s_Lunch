@@ -19,7 +19,7 @@ RUN pip install --upgrade pip; \
 
 CMD /usr/bin/tail -f /dev/null
 
-COPY ./* work/
 WORKDIR work
+COPY . .
 CMD pip install -r requirements.txt
 CMD python slackbot/run.py
