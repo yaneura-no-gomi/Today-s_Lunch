@@ -18,4 +18,8 @@ RUN pip install --upgrade pip; \
     slacker
 
 CMD /usr/bin/tail -f /dev/null
-# CMD python slackbot/run.py
+
+COPY ./* work/
+WORKDIR work
+CMD pip install -r requirements.txt
+CMD python slackbot/run.py
