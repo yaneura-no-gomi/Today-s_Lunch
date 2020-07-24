@@ -105,7 +105,8 @@ def send_tommorow_menu(message):
 def update_database(message):
 
     # message.send("データベースを更新しています...")
-
+    print("updating database...")
+    
     # 既存のcsvを削除
     files = glob.glob("./result/*")
     for f in files:

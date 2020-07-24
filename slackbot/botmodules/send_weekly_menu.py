@@ -31,11 +31,11 @@ def get_weekly_menu(dt):
     
     if mondays[0] <= dt[0] and dt[0] < mondays[1]:
         # 1週目
-        return "/opt/imgs/1.jpg"
+        return "./imgs/1.jpg"
 
     else:
         # 2週目
-        return "/opt/imgs/2.jpg"
+        return "./imgs/2.jpg"
 
 @listen_to("!week")
 def send_weekly_menu(message):
